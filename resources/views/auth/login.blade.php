@@ -63,12 +63,10 @@
                             Sign In
                         </button>
                     </div>
-
-                    <div class="col-xs-6">
-                        <a href="{{route('signup.create')}}" <button type="submit" class="btn btn-primary btn-block btn-flat">
-                            Register
-                            </button>
-                        </a>
+                    <br>
+                    <br>
+                    <div class="col-xs-12">  
+                    <p>Doesn't have an account? <a href="{{route('signup.create')}}"> Sign Up </a>   </p>
                     </div>
                     <!-- /.col -->
                 </div>

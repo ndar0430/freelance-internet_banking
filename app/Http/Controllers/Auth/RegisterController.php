@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
+use App\Role;
 
 class RegisterController extends Controller
 {
@@ -31,7 +32,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin/users/list';
+    protected $redirectTo = '/admin/unregistered_users';
 
     /**
      * Create a new controller instance.
@@ -40,7 +41,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
     }
 
     public function showRegistrationForm($id)
@@ -64,16 +65,19 @@ class RegisterController extends Controller
             'user_id' => 'required|integer|digits:10|unique:users',
             'users_details_id' => 'required|integer|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'show_password' => 'required',
         ]);
         
     }
 
     public function register(Request $request)
     {
+        $success = array('ok'=> 'The User has been Registered Successfully');
+
         $this->validator($request->all())->validate();
         event(new Registered($user = $this->create($request->all())));
         return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
+                        ?: redirect($this->redirectPath())->with($success);
     }
 
     /**
@@ -84,10 +88,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user =  User::create([
             'user_id' => $data['user_id'],
             'users_details_id' => $data['users_details_id'],
             'password' => Hash::make($data['password']),
+            'show_password' => $data['show_password']
         ]);
+
+        $user->attachRole(Role::where('name','normal-user')->first());
+        
+        return $user;
     }
 }

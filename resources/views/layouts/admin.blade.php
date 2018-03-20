@@ -5,16 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Internet Banking</title>
 
+    <link rel="stylesheet" href="{{ asset('css/fontawesome.min.css')  }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts/googlefonts.css')  }}">
+
+
+
+
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
     <!-- Bower includes -->
+    
+
+    
     <link rel="stylesheet" href="{{ asset('css/bower_bundle.css')  }}">
     <link rel="stylesheet" href="{{ asset('css/bundle.css')  }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap-multiselect.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/fontawesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('fonts/googlefonts.css') }}">
+
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
@@ -51,23 +59,102 @@
         <section class="sidebar">
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
-                <li class="header">Main Navigation</li>
-                <li class="treeview {{ ($currentRoutePrefix === '/admin') ? 'active' : '' }}">
+                <li style ="color:white;" class="header">
+                
+                Welcome
+
+                 
+                 </li>
+
+                <li class="treeview {{ ($currentRoutePrefix === '/admin/users') ? 'active' : '' }}">
                     <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                        <i class="fa fa-dashboard"></i> <span>Home</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
                         <li class="">
-                            <a href="{{ route('signup.create') }}">
+                            <a href="{{ route('home.index') }}">
                                 <i class="fa fa-circle-o"></i>
                                 Home
                             </a>
                         </li>
+
                     </ul>
                 </li>
+
+
+                @role('super_admin|admin')
+                <li class="treeview {{ ($currentRoutePrefix === '/admin/users') ? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>Users</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="">
+                            <a href="{{ route('users.list') }}">
+                                <i class="fa fa-circle-o"></i>
+                                Registered Users List
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="{{ route('signup.list') }}">
+                                <i class="fa fa-circle-o"></i>
+                                Unregistered Users List
+                            </a>
+                        </li>
+                        @role('super_admin')
+                        <li class="">
+                            <a href="{{ route('roleuser.index') }}">
+                                <i class="fa fa-circle-o"></i>
+                                Attach Role
+                            </a>
+                        </li>
+                        @endrole
+                    </ul>
+                </li>
+
+                <li class="treeview {{ ($currentRoutePrefix === '/admin/users') ? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>Balance</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="">
+                            <a href="{{ route('bank.index') }}">
+                                <i class="fa fa-circle-o"></i>
+                                Add Balance
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                @endrole
+
+                @role('normal-user')
+                <li class="treeview {{ ($currentRoutePrefix === '/admin/users') ? 'active' : '' }}">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>Balance</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="">
+                            <a href="{{ route('bank.checkbalance') }}">
+                                <i class="fa fa-circle-o"></i>
+                                Check Balance
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endrole
 
                 <li>
                     <a href="{{ route('logout') }}">

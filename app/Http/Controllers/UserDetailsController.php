@@ -15,16 +15,10 @@ class UserDetailsController extends Controller
      */
     public function index()
     {
-        
-        $user_details_table = UserDetails::all();
+        $user_details_id = User::pluck('users_details_id');
+        $user_details_table = UserDetails::whereNotIn('id', $user_details_id)->orderBy('created_at', 'desc')->paginate(10);
 
-
-        $user_details_id = UserDetails::pluck('id');
-
-        $users = User::pluck('users_details_id');
-
-
-        return view('admin.users.index', compact('users', 'user_details_id', 'user_details_table'));
+        return view('admin.users.index', compact('user_details_table'));
     }
 
     /**
@@ -35,7 +29,7 @@ class UserDetailsController extends Controller
     public function create()
     {
         $user_details_table = UserDetails::all();
-        return view('sign_up', compact('user_details_table'));
+        return view('users.sign_up', compact('user_details_table'));
     }
 
     /**
